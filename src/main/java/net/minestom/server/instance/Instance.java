@@ -49,6 +49,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -100,6 +101,10 @@ public abstract class Instance implements Block.Getter, Block.Setter,
 
     // the uuid of this instance
     protected UUID uniqueId;
+
+    // for threading
+    private static final AtomicInteger sequentialIdProvider = new AtomicInteger(0);
+    final int sequentialId = sequentialIdProvider.getAndIncrement();
 
     // instance custom data
     protected TagHandler tagHandler = TagHandler.newHandler();
