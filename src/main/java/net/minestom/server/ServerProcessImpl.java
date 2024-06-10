@@ -87,7 +87,7 @@ final class ServerProcessImpl implements ServerProcess {
     private final AtomicBoolean started = new AtomicBoolean();
     private final AtomicBoolean stopped = new AtomicBoolean();
 
-    public ServerProcessImpl() throws IOException {
+    public ServerProcessImpl(ThreadDispatcher<Chunk> dispatcher) throws IOException {
         this.exception = new ExceptionManager();
 
         this.chatType = ChatType.createDefaultRegistry();
@@ -116,7 +116,7 @@ final class ServerProcessImpl implements ServerProcess {
 
         this.server = new Server(packetProcessor);
 
-        this.dispatcher = ThreadDispatcher.singleThread();
+        this.dispatcher = dispatcher;
         this.ticker = new TickerImpl();
     }
 

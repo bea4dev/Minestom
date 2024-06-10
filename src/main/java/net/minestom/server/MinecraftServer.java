@@ -9,6 +9,7 @@ import net.minestom.server.entity.metadata.animal.tameable.WolfMeta;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.exception.ExceptionManager;
 import net.minestom.server.gamedata.tags.TagManager;
+import net.minestom.server.instance.Chunk;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.BlockManager;
 import net.minestom.server.instance.block.banner.BannerPattern;
@@ -25,6 +26,7 @@ import net.minestom.server.network.socket.Server;
 import net.minestom.server.recipe.RecipeManager;
 import net.minestom.server.registry.DynamicRegistry;
 import net.minestom.server.scoreboard.TeamManager;
+import net.minestom.server.thread.ThreadDispatcher;
 import net.minestom.server.thread.TickSchedulerThread;
 import net.minestom.server.timer.SchedulerManager;
 import net.minestom.server.utils.PacketUtils;
@@ -78,11 +80,22 @@ public final class MinecraftServer {
         return new MinecraftServer();
     }
 
+    @ApiStatus.Experimental
+    public static MinecraftServer initWithDispatcher(ThreadDispatcher<Chunk> dispatcher) {
+        updateProcessWithDispatcher(dispatcher);
+        return new MinecraftServer();
+    }
+
     @ApiStatus.Internal
     public static ServerProcess updateProcess() {
+        return updateProcessWithDispatcher(ThreadDispatcher.singleThread());
+    }
+
+    @ApiStatus.Internal
+    public static ServerProcess updateProcessWithDispatcher(ThreadDispatcher<Chunk> dispatcher) {
         ServerProcess process;
         try {
-            process = new ServerProcessImpl();
+            process = new ServerProcessImpl(dispatcher);
             serverProcess = process;
         } catch (IOException e) {
             throw new RuntimeException(e);
