@@ -15,9 +15,6 @@ import net.minestom.server.event.server.ServerListPingEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.lan.OpenToLAN;
 import net.minestom.server.extras.lan.OpenToLANConfig;
-import net.minestom.server.instance.Chunk;
-import net.minestom.server.instance.ChunkThreadProvider;
-import net.minestom.server.instance.InstanceThreadProvider;
 import net.minestom.server.instance.block.BlockManager;
 import net.minestom.server.item.ItemComponent;
 import net.minestom.server.item.ItemStack;
@@ -27,7 +24,6 @@ import net.minestom.server.ping.ResponseData;
 import net.minestom.server.recipe.RecipeCategory;
 import net.minestom.server.recipe.ShapedRecipe;
 import net.minestom.server.recipe.ShapelessRecipe;
-import net.minestom.server.thread.ThreadDispatcher;
 import net.minestom.server.utils.identity.NamedAndIdentified;
 import net.minestom.server.utils.time.TimeUnit;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +39,6 @@ public class Main {
         MinecraftServer.setCompressionThreshold(0);
 
         MinecraftServer minecraftServer = MinecraftServer.init();
-        //ThreadDispatcher<Chunk> dispatcher = ThreadDispatcher.of(new ChunkThreadProvider(), 4);
-        //MinecraftServer minecraftServer = MinecraftServer.initWithDispatcher(dispatcher);
 
         BlockManager blockManager = MinecraftServer.getBlockManager();
         blockManager.registerBlockPlacementRule(new DripstonePlacementRule());

@@ -26,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 // TODO light data & API
 
@@ -47,10 +46,6 @@ public abstract class Chunk implements Block.Getter, Block.Setter, Biome.Getter,
     public static final int CHUNK_SECTION_SIZE = 16;
 
     private final UUID identifier;
-
-    // for threading
-    private static final AtomicInteger sequentialIdProvider = new AtomicInteger(0);
-    final int sequentialId = sequentialIdProvider.getAndIncrement();
 
     protected Instance instance;
     protected final int chunkX, chunkZ;
